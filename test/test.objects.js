@@ -71,6 +71,8 @@ describe("Objects", function (done) {
             s3.createBucket({Bucket: "exists2"}, function () {
                 s3.listBuckets(function (error, data) {
                     expect(data.Buckets.length).to.equal(2);
+                    expect(data.Buckets[0].Name).to.equal("exists");
+                    expect(data.Buckets[1].Name).to.equal("exists2");
                     done();
                 });
             });
