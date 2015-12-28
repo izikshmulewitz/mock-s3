@@ -43,6 +43,24 @@ describe("Objects", function (done) {
             });
         });
 
+        it("return all objects with the given prefix.", function (done) {
+            var s3 = this.s3;
+            var buffer = new Buffer(1000);
+            buffer.fill(100);
+            s3.putObject({Bucket: "exists", Key: "folder1/file1", Body: buffer}, function (err3, res3) {
+                s3.putObject({Bucket: "exists", Key: "folder1/file2", Body: buffer}, function (err2, res2) {
+                    s3.putObject({Bucket: "exists", Key: "folder2/file1", Body: buffer}, function (err1, res1) {
+                        s3.listObjects({Bucket: "exists", Prefix: "folder1"}, function (err, res) {
+                            console.log(res);
+                            expect(res.IsTruncated).to.be.equal(false);
+                            expect(res.Contents.length).to.be.equal(2);
+                            done();
+                        });
+                    });
+                });
+            });
+        });
+
         it("returns a stream for 'Body' if using createReadStream", function (done) {
             var s3 = this.s3;
             var buffer = new Buffer(120000);
