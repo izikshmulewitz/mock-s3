@@ -53,7 +53,7 @@ describe("Objects", function (done) {
                         s3.listObjects({Bucket: "exists", Prefix: "folder1"}, function (err, res) {
                             console.log(res);
                             expect(res.IsTruncated).to.be.equal(false);
-                            expect(res.Contents.length).to.be.equal(2);
+                            expect(res.Contents.length).to.be.equal(3); // 2 files plus one folder.
                             done();
                         });
                     });
