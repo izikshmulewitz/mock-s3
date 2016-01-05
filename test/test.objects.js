@@ -131,4 +131,24 @@ describe("Objects", function (done) {
             });
         });
     });
+
+    describe("copyObject", function () {
+        it("creates a clone of the file according to copy object", function (done) {
+            var s3 = this.s3;
+            var buffer = new Buffer(1000);
+            buffer.fill(100);
+            s3.putObject({Bucket: "exists", Key: "file", Body: buffer}, function (err, res) {
+                s3.copyObject({Bucket: "exists", CopySource:"exists/file", Key: "file2"}, function (err, res) {
+                    s3.getObject({Bucket: "exists", Key: "file2"}, function (err, res) {
+                        console.log(err);
+                        expect(err).to.be.not.ok;
+                        expect(res).to.be.ok;
+                        expect(bufferEquals(buffer, res.Body)).to.be.ok;
+                        done();
+                    });
+                });
+            });
+        });
+
+    });
 });
