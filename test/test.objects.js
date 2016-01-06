@@ -143,6 +143,7 @@ describe("Objects", function (done) {
                         console.log(err);
                         expect(err).to.be.not.ok;
                         expect(res).to.be.ok;
+                        expect(res.Key).to.be.equal("file2");
                         expect(bufferEquals(buffer, res.Body)).to.be.ok;
                         done();
                     });
